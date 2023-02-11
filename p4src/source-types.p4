@@ -74,10 +74,10 @@ header udp_with_delays_h {
 
     bit<15> padding_2;
     // Drop-Prob Up/Down
-    bit<1> drop_prob_increase;
+    bit<1> drop_prob_increase;   // ?
 
-    bit<32> ethernet_padding;
-}
+    bit<32> ethernet_padding;  
+    }
 
 header bridge_h {
     bit<48> ingress_global_tstamp;
@@ -116,11 +116,10 @@ struct egress_meta_t {
         bit<32> queue_delay;
     #endif
 
-    bit<32> queue_delay_for_storing;
-
+    bit<32> queue_delay_for_storing;   //?
     #ifdef EGRESS_TABLE_PIE
-        bit<16> diff_to_old_queue_delay;
-        bit<16> diff_to_target;
+        bit<16> diff_to_old_queue_delay;  // multiply with beta
+        bit<16> diff_to_target;     // multiply with alpha
     #endif
 
     #ifdef EGRESS_DATAPLANE_PIE
@@ -130,25 +129,25 @@ struct egress_meta_t {
 
 
     bit<32> drop_probability;
-    bit<32> random;
+    bit<32> random;   //is common for egress drop?
 
     bit<32> drop_probability_update;
     bit<1> drop_probability_increase;
 
-    bit<16> alpha_range;
-    bit<16> beta_range;
+    bit<16> alpha_range;  // ?
+    bit<16> beta_range;   // table?
 
-    bit<32> alpha_part;
-    bit<32> beta_part;
-    bit<32> beta_part_temp;
-    bit<32> beta_alpha_ssubtraction;
+    bit<32> alpha_part;  // DP?
+    bit<32> beta_part;   // DP?
+    bit<32> beta_part_temp;  //  ?
+    bit<32> beta_alpha_ssubtraction;   // beta - alpha
 
-    bit<1> alpha_positive;
-    bit<1> beta_positive;
-    bit<1> alpha_geq_beta;
+    bit<1> alpha_positive;  // ?
+    bit<1> beta_positive;  // ?
+    bit<1> alpha_geq_beta;  // ?
 
     bool drop;
-    bit<1> isPIEPacket;
+    bit<1> isPIEPacket;  // is 0x2323?
 
 }   
 
