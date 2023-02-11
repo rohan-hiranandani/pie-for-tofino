@@ -11,7 +11,7 @@
 
 
 // Denotes the target delay of PIE
-const int TARGET_QUEUE_DELAY_US = 125;
+const int TARGET_QUEUE_DELAY_US = 125;   //qdelay_ref 
 
 
 
@@ -60,10 +60,12 @@ control Egress(
     Register<bit<REGISTER_WIDTH>, bit>(1) last_sampled_delay_reg;
     RegisterAction<bit<REGISTER_WIDTH>, bit, int<REGISTER_WIDTH>>(last_sampled_delay_reg) get_difference_to_last_sampled_delay = {
         void apply(inout bit<REGISTER_WIDTH> reg_data, out int<REGISTER_WIDTH> result) {
-            result = (int<REGISTER_WIDTH>)reg_data - (int<REGISTER_WIDTH>)meta.queue_delay;
+            result = (int<REGISTER_WIDTH>)reg_data - (int<REGISTER_WIDTH>)meta.queue_delay;   // (current qdel - qdelayold)
             reg_data = meta.queue_delay;
-        }
-    };
+        }  // what is meta.queue_delay and what is reg_data(mapping to current qdel and qdelayold)
+	   // what is result
+	   //when is this being called
+    };   
 
     /* 
         The previous_delay_reg stores the value of the delay that was observed by the last (previous) packet.
@@ -111,7 +113,7 @@ control Egress(
     Register<bit<32>, bit>(1) drop_probability_reg;
     RegisterAction<bit<32>, bit, bit<32>>(drop_probability_reg) set_drop_probability_with_ssub = {
         void apply(inout bit<32> reg_data, out bit<32> result) {
-            reg_data = reg_data |-| (bit<32>) meta.drop_probability_update;
+            reg_data = reg_data |-| (bit<32>) meta.drop_probability_update;    //read up on register actions and tofino externs/tofino spec
             result = reg_data;
         }
     };
